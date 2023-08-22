@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="isLoadingMorePages"
+            type="Boolean" />
+
+        <variable
+            name="adult"
+            type="Boolean" />
+
+        <variable
+            name="movie"
+            type="com.example.movies_task30.data.model.movieDetails.ResponseDetails" />
+
+        <import type="android.view.View"/>
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:background="@color/colorPrimary"
+        tools:context=".ui.DetailsFragment">
+
+        <ImageView
+            android:id="@+id/sliderPages"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_180sdp"
+            imageURL="@{movie.backdrop_path}"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/sliderPages"
+            android:background="@drawable/backgroud_image_details"
+            />
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/thumbnailPath"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_150sdp"
+            imageURL="@{movie.poster_path}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sliderPages"
+            app:layout_constraintBottom_toBottomOf="@+id/sliderPages"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius="@dimen/_6sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:visibility="visible"
+            android:layout_marginTop="@dimen/_4sdp"
+            />
+
+        <ImageView
+            android:id="@+id/back_space"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:src="@drawable/back_24"
+            app:tint="@color/colorWhite"
+            android:background="@drawable/backgroung_backspace"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:padding="@dimen/_3sdp"
+            />
+
+        <LinearLayout
+            android:id="@+id/layout_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end|center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/_8sdp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/sliderPages"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{movie.title}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/thumbnailPath"
+            app:layout_constraintTop_toBottomOf="@+id/sliderPages"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:fontFamily="@font/ubuntu_bold"
+            android:textSize="@dimen/_14ssp"
+            android:textColor="@color/colorAccent"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:maxLines="1"
+            android:visibility="visible"
+            />
+
+        <TextView
+            android:id="@+id/country"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{movie.original_language}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/thumbnailPath"
+            app:layout_constraintTop_toBottomOf="@+id/name"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:textSize="@dimen/_12ssp"
+            android:textColor="@color/colorIcons"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:maxLines="1"
+            android:visibility="visible"
+            android:fontFamily="@font/ubuntu_medium"
+            />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/thumbnailPath"
+            app:layout_constraintTop_toBottomOf="@+id/country"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:textSize="@dimen/_12ssp"
+            android:textColor="@color/colorNoteColor3"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:maxLines="1"
+            android:visibility="visible"
+            android:fontFamily="@font/ubuntu_medium"
+            />
+
+        <TextView
+            android:id="@+id/startDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{movie.release_date}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/thumbnailPath"
+            app:layout_constraintTop_toBottomOf="@+id/status"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:textSize="@dimen/_12ssp"
+            android:textColor="@color/colorIcons"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:visibility="visible"
+            android:fontFamily="@font/ubuntu_medium"
+            />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{movie.overview}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/thumbnailPath"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:textSize="@dimen/_12ssp"
+            android:textColor="@color/colorWhite"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:visibility="visible"
+            android:fontFamily="@font/ubuntu_regular"
+            android:gravity="start"
+            android:maxLines="4"
+            />
+
+        <View
+            android:id="@+id/divi"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            app:layout_constraintTop_toBottomOf="@id/description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/colorMiscellaneousBackground"
+            android:visibility="gone"
+            />
+
+        <LinearLayout
+            android:id="@+id/layMisc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            app:layout_constraintTop_toBottomOf="@+id/divi"
+            android:visibility="gone"
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:id="@+id/start"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:src="@drawable/star_24"
+                app:tint="@color/colorAccent"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:visibility="visible"
+                />
+
+            <TextView
+                android:id="@+id/rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:fontFamily="@font/ubuntu_regular"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                />
+
+            <TextView
+                android:id="@+id/dot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="\u2022"
+                android:fontFamily="@font/ubuntu_regular"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_13ssp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:visibility="gone"
+                />
+
+
+
+            <TextView
+                android:id="@+id/genre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:fontFamily="@font/ubuntu_regular"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:visibility="gone"
+                />
+
+
+            <TextView
+                android:id="@+id/dot2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="\u2022"
+                android:fontFamily="@font/ubuntu_regular"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_13ssp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:visibility="gone"
+                />
+
+
+            <TextView
+                android:id="@+id/genre2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:fontFamily="@font/ubuntu_regular"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:visibility="gone"
+                />
+
+
+
+            <TextView
+                android:id="@+id/dot3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="\u2022"
+                android:fontFamily="@font/ubuntu_regular"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_13ssp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:visibility="gone"
+                />
+
+
+            <TextView
+                android:id="@+id/genre3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:fontFamily="@font/ubuntu_regular"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:visibility="gone"
+                />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divi2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            app:layout_constraintTop_toBottomOf="@id/layMisc"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/colorMiscellaneousBackground"
+            android:visibility="gone"
+            />
+
+
+        <TextView
+            android:id="@+id/similar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="similar"
+            android:fontFamily="@font/ubuntu_regular"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:textSize="@dimen/_18ssp"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/divi2"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="visible"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/similar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginStart="16dp"
+            />
+
+        <ProgressBar
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_margin="@dimen/_10sdp"
+            android:visibility="@{isLoadingMorePages ? View.VISIBLE : View.GONE, default = gone}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
