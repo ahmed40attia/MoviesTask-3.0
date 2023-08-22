@@ -12,14 +12,13 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.movies_task30.R
 import com.example.movies_task30.data.model.MovieResult
+import com.example.movies_task30.data.model.movieDetails.Genre
 import com.example.movies_task30.data.model.movieDetails.ResponseDetails
 import com.example.movies_task30.databinding.FragmentMoviesBinding
 import com.example.movies_task30.listener.MovieListener
 import com.example.movies_task30.ui.adapter.MovieAdapter
-import com.example.movies_task30.ui.pager.PlansPagerAdapter
 import com.example.movies_task30.ui.viewModel.ViewModelMovieDetails
 import com.example.movies_task30.ui.viewModel.ViewModelMovies
-import com.example.movies_task30.util.Constant
 import com.google.android.material.tabs.TabLayout
 
 
@@ -28,13 +27,10 @@ private const val ARG_PARAM1 = "param1"
 class MoviesFragment : Fragment() , MovieListener {
 
     private lateinit var binding : FragmentMoviesBinding
-    private lateinit var movie : MovieResult
-    private lateinit var detailsMovie : ResponseDetails
     private val viewModel: ViewModelMovies by viewModels()
-    private val detailsVieModel:ViewModelMovieDetails by viewModels()
     private lateinit var navController:NavController
-    lateinit var Movielist: List<MovieResult>
     lateinit var movieAdapter:MovieAdapter
+    private val genreMap = mutableMapOf<String,Int>()
 
     companion object {
         @JvmStatic
@@ -80,6 +76,13 @@ class MoviesFragment : Fragment() , MovieListener {
         }
 
         viewModel.genreMoviesLiveData.observe(viewLifecycleOwner){response ->
+                val listGenre = response.genres.map { index ->
+                    index.name
+                }
+
+                for (index in response.genres){
+                    genreMap[index.name] = index.id
+                }
 
         }
 
@@ -119,16 +122,10 @@ class MoviesFragment : Fragment() , MovieListener {
         else
             binding.tab.tabMode = TabLayout.MODE_SCROLLABLE;
 
-//        val adapter = PlansPagerAdapter(fragmentManager, binding.tab.tabCount)
-//        binding.viewPager.adapter = adapter
-//        binding.viewPager.offscreenPageLimit = 1
-//        binding.viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.tab))
 
-//
         binding.tab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 val cate_id:Int? = get_data_categories_id_by_name(tab?.text as String)
-//                Toast.makeText(requireContext(), cate_id.toString(), Toast.LENGTH_SHORT ).show()
                 viewModel.getMovies(cate_id as Int)
             }
 
