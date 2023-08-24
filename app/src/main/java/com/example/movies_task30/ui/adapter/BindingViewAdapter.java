@@ -1,16 +1,17 @@
-package com.example.movies_task30.util;
+package com.example.movies_task30.ui.adapter;
 
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
 
+import com.example.movies_task30.util.Constant;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 public class BindingViewAdapter {
     @BindingAdapter("imageURL")
     public static void setImageURL (ImageView imageView,String URL){
-        String BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500/";
+        String BASE_IMAGE_URL = Constant.BASE_IMAGE_URL;
         String imagePath = BASE_IMAGE_URL + URL;
             try{
                 imageView.setAlpha(0f);

@@ -63,6 +63,15 @@
             android:layout_marginTop="@dimen/_4sdp"
             />
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="@+id/thumbnailPath"
+            app:layout_constraintEnd_toEndOf="@+id/thumbnailPath"
+            app:layout_constraintBottom_toBottomOf="@+id/thumbnailPath"
+            android:background="@drawable/backgroud_image_details"
+            />
+
         <ImageView
             android:id="@+id/back_space"
             android:layout_width="@dimen/_25sdp"

@@ -16,8 +16,9 @@
         >
 
         <View
+            android:id="@+id/headerView"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_15sdp"
+            android:layout_height="@dimen/_16sdp"
             app:layout_constraintTop_toTopOf="@id/container_image"
             android:background="@color/colorPrimary"
             />

@@ -1,23 +1,11 @@
 package com.example.movies_task30.ui
 
-import android.content.Context
-import android.os.Bundle
-import android.util.DisplayMetrics
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
+
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Adapter
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSmoothScroller
-import androidx.recyclerview.widget.RecyclerView
 import com.example.movies_task30.R
-import com.example.movies_task30.data.model.MovieImages.Backdrop
 import com.example.movies_task30.data.model.MovieResult
 import com.example.movies_task30.data.model.movieDetails.ResponseDetails
 import com.example.movies_task30.databinding.FragmentDetailsBinding
@@ -27,42 +15,18 @@ import com.example.movies_task30.ui.viewModel.ViewModelMovieDetails
 import com.example.movies_task30.ui.viewModel.ViewModelMovies
 
 
-class DetailsFragment : Fragment() , MovieListener {
-    private lateinit var binding: FragmentDetailsBinding
+class DetailsFragment : BaseFragment<FragmentDetailsBinding>(R.layout.fragment_details), MovieListener {
+
     private  val viewModel:ViewModelMovieDetails by viewModels()
     private  val similarViewModel:ViewModelMovies by viewModels()
-    private lateinit var navController: NavController
+    private lateinit var adapter: MovieAdapter
 
 
-    lateinit var adapter: MovieAdapter
-
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        navController = findNavController()
-
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater , R.layout.fragment_details , container ,false)
-        return binding.root
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun setUp() {
         observer()
         similarObserver()
         callBacks()
-
     }
-
-
 
     private fun observer (){
         binding.isLoadingMorePages = true
@@ -83,7 +47,7 @@ class DetailsFragment : Fragment() , MovieListener {
     private fun similarObserver (){
         binding.isLoadingMorePages = true
 
-        similarViewModel.getMovies(28)
+        similarViewModel.getMovies(getMovieCategory())
         similarViewModel.moviesLiveData.observe(viewLifecycleOwner){response ->
             setUpRecycleView(response.results)
             binding.isLoadingMorePages = false
@@ -96,14 +60,9 @@ class DetailsFragment : Fragment() , MovieListener {
     }
 
 
-
     private fun getMovieId () = arguments?.getInt("movie_id" ) as Int
 
-    private fun getMovieCate () = arguments?.getInt("movie_genres" ) as Int
-    
-    private fun setUpImagesAdapter(list:List<Backdrop>){
-        
-    }
+    private fun getMovieCategory () = arguments?.getInt("movie_genres" ) as Int
 
     fun setData (movie: ResponseDetails) {
         binding.movie = movie
@@ -113,7 +72,7 @@ class DetailsFragment : Fragment() , MovieListener {
         else
             binding.status.text = "+12 "
 
-        binding.rate.text = movie.vote_average.toString()
+        binding.rate.text = movie.vote_average.toString().subSequence(0 ,3)
 
         if(movie.genres.size > 0){
 
@@ -144,7 +103,6 @@ class DetailsFragment : Fragment() , MovieListener {
         binding.similar.visibility = View.VISIBLE
     }
 
-
     fun setUpRecycleView (list:List<MovieResult>){
         adapter = MovieAdapter(list , this)
 
@@ -164,10 +122,9 @@ class DetailsFragment : Fragment() , MovieListener {
 
     fun callBacks (){
         binding.backSpace.setOnClickListener {
-        val action = DetailsFragmentDirections.actionDetailsFragmentToPopularFragment()
+        val action = DetailsFragmentDirections.actionDetailsFragmentToPopularFragment(getMovieCategory())
         navController.navigate(action)
         }
     }
-
 
 }

@@ -1,5 +1,7 @@
 package com.example.movies_task30.ui.viewModel
 
+
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,23 +29,23 @@ class ViewModelMovies : ViewModel() {
     private val _genreErrorLiveData = MutableLiveData<String>()
     val genreErrorLiveData: LiveData<String> = _genreErrorLiveData
 
-
-
     var generc by Delegates.notNull<Int>()
 
     init {
         getGenre()
     }
 
-
     fun getMovies (with_genres:Int) {
          generc = with_genres
 
         viewModelScope.launch {
+
             try {
                 val res = MovieRepo().getMovies(Constant.API_KEY , with_genres)
-                if (res.isSuccessful)
-                    _moviesLiveData.postValue(res.body())
+                if (res.isSuccessful){
+                    if (_moviesLiveData.value != res.body())
+                        _moviesLiveData.postValue(res.body())
+                }
                 else
                     _errorLiveData.postValue(res.errorBody()?.getError().toString())
             }catch (e :IOException){
@@ -57,6 +59,7 @@ class ViewModelMovies : ViewModel() {
                 _errorLiveData.postValue(e.message.toString())
             }
         }
+
     }
 
     private fun getGenre (){

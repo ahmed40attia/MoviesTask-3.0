@@ -17,7 +17,7 @@ interface ApiSeries {
     suspend fun getMovies (
         @Query("with_genres") with_genres:Int,
         @Query("api_key") api_key:String,
-        @Query("page") page:Int = 2
+        @Query("page") page:Int = 1
     ): Response<ResponsePopular>
 
     @GET("3/movie/{movie_id}?")
