@@ -1,12 +1,19 @@
 package com.example.movies_task30.ui
 
 
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.movies_task30.R
 import com.example.movies_task30.data.model.MovieResult
 import com.example.movies_task30.data.model.movieActors.Cast
@@ -17,6 +24,7 @@ import com.example.movies_task30.databinding.PersonSheetBinding
 import com.example.movies_task30.listener.ActorListener
 import com.example.movies_task30.listener.MovieListener
 import com.example.movies_task30.ui.adapter.ActorAdapter
+import com.example.movies_task30.ui.adapter.ImageSliderAdapter
 import com.example.movies_task30.ui.adapter.MovieAdapter
 import com.example.movies_task30.ui.viewModel.ViewModelMovieDetails
 import com.example.movies_task30.ui.viewModel.ViewModelMovies
@@ -73,6 +81,18 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(R.layout.fragment_d
 
         viewModel.personErrorLiveData.observe(viewLifecycleOwner){massage ->
             Toast.makeText(requireContext() ,massage,Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.getImages(getMovieId())
+        viewModel.moviesImagesLiveData.observe(viewLifecycleOwner){response ->
+            val images = response.backdrops.map { index ->
+                index.file_path
+            }
+
+            initialSlider(images)
+        }
+        viewModel.imagesErrorLiveData.observe(viewLifecycleOwner){massage ->
+            Toast.makeText(requireContext() , massage ,Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -156,9 +176,71 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(R.layout.fragment_d
         bottomSheetDialog!!.show()
     }
 
-    private fun setUpViewPager(){
 
+
+    private fun initialSlider(images: List<String>) {
+        val images_:List<String>
+
+        if (images.size > 7)
+             images_ = images.subList(0 ,8)
+        else
+            images_ = images
+
+        binding.sliderPages.offscreenPageLimit = 1
+        binding.sliderPages.adapter = ImageSliderAdapter(images_)
+        binding.sliderPages.visibility = ViewPager.VISIBLE
+        initialSliderIndicator(images.size)
+        binding.sliderPages.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                highLight_position_slider(position)
+            }
+        })
     }
+
+    private fun initialSliderIndicator(count: Int) {
+        val views = arrayOfNulls<ImageView>(count)
+        val layoutParams = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        layoutParams.leftMargin = 8
+        layoutParams.rightMargin = 8
+
+        for (index in views.indices) {
+            views[index] = ImageView(requireContext())
+            views[index]!!.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(), R.drawable.backgroung_slider_indicator
+                )
+            )
+            views[index]!!.layoutParams = layoutParams
+            binding.layoutIndicator.addView(views[index])
+        }
+        binding.layoutIndicator.visibility = View.VISIBLE
+        highLight_position_slider(0)
+    }
+
+
+    private fun highLight_position_slider(position: Int) {
+        val count: Int = binding.layoutIndicator.childCount
+        for (index in 0 until count) {
+            val imageView = binding.layoutIndicator.getChildAt(index) as ImageView
+            if (index == position) {
+                imageView.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(), R.drawable.backgroung_slider_indicator_active
+                    )
+                )
+            } else {
+                imageView.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(), R.drawable.backgroung_slider_indicator
+                    )
+                )
+            }
+        }
+    }
+
 
     private fun setVisibility (){
         binding.divi2.visibility = View.VISIBLE
@@ -189,8 +271,9 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(R.layout.fragment_d
     override fun onMovieClick(movieId: Int) {
         binding.isLoadingMorePages = true
         viewModel.getDetails(movieId)
-        binding.isLoadingMorePages = true
         viewModel.getActors(movieId)
+        viewModel.getImages(movieId)
+        binding.isLoadingMorePages = false
     }
 
     override fun onActorClick(actorId: Int) {

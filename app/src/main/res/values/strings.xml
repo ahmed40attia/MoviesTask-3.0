@@ -4,4 +4,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="similar">Similar</string>
     <string name="cast">Cast</string>
+    <string name="recommendation">Recommendation</string>
 </resources>
