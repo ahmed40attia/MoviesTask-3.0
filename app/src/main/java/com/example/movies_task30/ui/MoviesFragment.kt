@@ -118,11 +118,9 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(R.layout.fragment_mov
 
     private fun callBacks (movie_id: Int){
         navController = findNavController()
-        val action = MoviesFragmentDirections.actionPopularFragmentToDetailsFragment(movie_id , currentCategory)
+        val action = MoviesFragmentDirections.actionPopularFragmentToDetailsFragment(movie_id)
         navController.navigate(action)
     }
-
-    private fun getMovieCategory () = arguments?.getInt("movie_category") as Int
 
 
 }

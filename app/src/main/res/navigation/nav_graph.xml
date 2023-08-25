@@ -13,9 +13,6 @@
         <action
             android:id="@+id/action_popularFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
-        <argument
-            android:name="movie_category"
-            app:argType="integer" />
     </fragment>
 
     <fragment
@@ -28,9 +25,6 @@
             app:destination="@id/popularFragment" />
         <argument
             android:name="movie_id"
-            app:argType="integer" />
-        <argument
-            android:name="movie_genres"
             app:argType="integer" />
     </fragment>
 </navigation>

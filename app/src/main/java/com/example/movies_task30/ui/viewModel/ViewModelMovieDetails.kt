@@ -51,7 +51,8 @@ class ViewModelMovieDetails @Inject constructor(val repo:ApiSeries) : ViewModel(
             try {
                 val res = repo.getMovieDetails(api_key = Constant.API_KEY , movie_id = movie_id )
                 if (res.isSuccessful)
-                    _movieDetailsLiveData.postValue(res.body())
+                    if(_movieDetailsLiveData.value != res.body())
+                        _movieDetailsLiveData.postValue(res.body())
                 else
                     _errorLiveData.postValue(res.errorBody()?.getError().toString())
             }catch (e : IOException){
@@ -71,8 +72,10 @@ class ViewModelMovieDetails @Inject constructor(val repo:ApiSeries) : ViewModel(
         viewModelScope.launch {
             try {
                 val res = repo.getMovieImages(api_key = Constant.API_KEY , movie_id = movie_id )
-                if (res.isSuccessful)
+                if (res.isSuccessful){
+                    if (_movieImagesLiveData.value != res.body())
                     _movieImagesLiveData.postValue(res.body())
+                }
                 else
                     _imagesErrorLiveData.postValue(res.errorBody()?.getError().toString())
             }catch (e : IOException){
@@ -91,8 +94,10 @@ class ViewModelMovieDetails @Inject constructor(val repo:ApiSeries) : ViewModel(
         viewModelScope.launch {
             try {
                 val res = repo.getMovieActors(api_key = Constant.API_KEY , movie_id = movie_id )
-                if (res.isSuccessful)
-                    _movieActorsLiveData.postValue(res.body())
+                if (res.isSuccessful){
+                    if (_movieActorsLiveData.value != res.body())
+                        _movieActorsLiveData.postValue(res.body())
+                }
                 else
                     _actorsErrorLiveData.postValue(res.errorBody()?.getError().toString())
             }catch (e : IOException){
@@ -111,8 +116,9 @@ class ViewModelMovieDetails @Inject constructor(val repo:ApiSeries) : ViewModel(
         viewModelScope.launch {
             try {
                 val res = repo.getPerson(api_key = Constant.API_KEY , person_id =  person_id )
-                if (res.isSuccessful)
-                    _personLiveData.postValue(res.body())
+                if (res.isSuccessful){
+                   _personLiveData.postValue(res.body())
+                }
                 else
                     _personErrorLiveData.postValue(res.errorBody()?.getError().toString())
             }catch (e : IOException){

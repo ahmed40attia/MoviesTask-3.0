@@ -100,7 +100,7 @@
             android:textColor="@color/colorNoteColor3"
             android:layout_marginTop="@dimen/_4sdp"
             android:maxLines="1"
-            android:visibility="visible"
+            android:visibility="gone"
             android:fontFamily="@font/ubuntu_medium"
             />
 

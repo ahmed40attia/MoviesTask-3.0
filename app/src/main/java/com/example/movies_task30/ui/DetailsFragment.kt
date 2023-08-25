@@ -43,7 +43,6 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(R.layout.fragment_d
     private lateinit var bindingSheet:PersonSheetBinding
 
 
-
     override fun setUp() {
         observer()
         similarObserver()
@@ -113,8 +112,6 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(R.layout.fragment_d
 
     private fun getMovieId () = arguments?.getInt("movie_id" ) as Int
 
-    private fun getMovieCategory () = arguments?.getInt("movie_genres" ) as Int
-
     private fun setData (movie: ResponseDetails) {
         binding.movie = movie
 
@@ -157,21 +154,6 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(R.layout.fragment_d
         )
         bottomSheetDialog?.setContentView(bindingSheet.root)
         bindingSheet.person = person
-
-//        if(person.name.toString().trim().isEmpty())
-//                bindingSheet.name.visibility = View.GONE
-//
-//        if(person.birthday.toString().trim().isEmpty())
-//            bindingSheet.birthday.visibility = View.GONE
-//
-//        if(person.deathday.toString().trim().isEmpty())
-//            bindingSheet.deathday.visibility = View.GONE
-//
-//        if(person.known_for_department.toString().trim().isEmpty())
-//            bindingSheet.knownFor.visibility = View.GONE
-//
-//        if(person.biography.toString().trim().isEmpty())
-//            bindingSheet.description.visibility = View.GONE
 
         bottomSheetDialog!!.show()
     }
@@ -241,7 +223,6 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(R.layout.fragment_d
         }
     }
 
-
     private fun setVisibility (){
         binding.divi2.visibility = View.VISIBLE
         binding.divi.visibility = View.VISIBLE
@@ -282,7 +263,7 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(R.layout.fragment_d
 
     private fun callBacks (){
         binding.backSpace.setOnClickListener {
-        val action = DetailsFragmentDirections.actionDetailsFragmentToPopularFragment(getMovieCategory())
+        val action = DetailsFragmentDirections.actionDetailsFragmentToPopularFragment()
         navController.navigate(action)
         }
     }

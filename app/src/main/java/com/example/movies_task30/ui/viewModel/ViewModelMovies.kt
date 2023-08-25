@@ -71,22 +71,26 @@ class ViewModelMovies @Inject constructor(val repo:ApiSeries) : ViewModel() {
 
     private fun getGenre (){
         viewModelScope.launch {
-            val response = repo.getMovieGenre(Constant.API_KEY)
-            if (response.isSuccessful)
-                _genreMoviesLiveData.postValue(response.body())
+            val res = repo.getMovieGenre(Constant.API_KEY)
+            if (res.isSuccessful){
+                if (_genreMoviesLiveData.value != res.body())
+                    _genreMoviesLiveData.postValue(res.body())
+            }
             else
-                _genreErrorLiveData.postValue(response.errorBody()?.getError())
+                _genreErrorLiveData.postValue(res.errorBody()?.getError())
         }
     }
 
      fun getSimilar (movie_id:Int){
         viewModelScope.launch {
             try {
-                val response = repo.getSimilar(movie_id = movie_id , api_key = Constant.API_KEY)
-                if (response.isSuccessful)
-                    _similarLiveData.postValue(response.body())
+                val res = repo.getSimilar(movie_id = movie_id , api_key = Constant.API_KEY)
+                if (res.isSuccessful){
+                    if (_similarLiveData.value != res.body())
+                        _similarLiveData.postValue(res.body())
+                }
                 else
-                    _similarErrorLiveData.postValue(response.errorBody()?.getError())
+                    _similarErrorLiveData.postValue(res.errorBody()?.getError())
 
         }catch (e :IOException){
              e.printStackTrace()
