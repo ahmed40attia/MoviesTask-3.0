@@ -13,9 +13,8 @@ class ApiServiceImp @Inject constructor(private val apiSeries: ApiSeries) : ApiS
     override suspend fun getMovies(
         with_genres: Int,
         api_key: String,
-        page: Int
     ): Response<ResponsePopular> {
-        return getMovies(with_genres , api_key , page)
+        return getMovies(with_genres , api_key)
     }
 
     override suspend fun getMovieDetails(

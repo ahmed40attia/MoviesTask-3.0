@@ -1,7 +1,6 @@
 package com.example.movies_task30.ui
 
 
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,11 +44,11 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(R.layout.fragment_d
 
     override fun setUp() {
         observer()
-        similarObserver()
+        recommendationObserver()
         callBacks()
     }
 
-    private fun observer (){
+    override fun observer (){
         binding.isLoadingMorePages = true
 
         viewModel.getDetails(getMovieId())
@@ -96,7 +95,7 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(R.layout.fragment_d
 
     }
 
-    private fun similarObserver (){
+    private fun recommendationObserver (){
         binding.isLoadingMorePages = true
         similarViewModel.getSimilar(getMovieId())
         similarViewModel.similarLiveData.observe(viewLifecycleOwner){response ->
@@ -157,7 +156,6 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(R.layout.fragment_d
 
         bottomSheetDialog!!.show()
     }
-
 
 
     private fun initialSlider(images: List<String>) {

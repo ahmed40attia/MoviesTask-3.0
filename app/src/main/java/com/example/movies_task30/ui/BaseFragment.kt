@@ -42,4 +42,6 @@ abstract class BaseFragment<B : ViewDataBinding>
 
     protected abstract fun setUp ()
 
+    protected abstract fun observer()
+
 }
