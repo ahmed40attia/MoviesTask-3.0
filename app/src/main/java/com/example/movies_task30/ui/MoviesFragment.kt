@@ -12,8 +12,9 @@ import com.example.movies_task30.listener.MovieListener
 import com.example.movies_task30.ui.adapter.MovieAdapter
 import com.example.movies_task30.ui.viewModel.ViewModelMovies
 import com.google.android.material.tabs.TabLayout
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MoviesFragment : BaseFragment<FragmentMoviesBinding>(R.layout.fragment_movies) , MovieListener {
 
     private val viewModel: ViewModelMovies by viewModels()

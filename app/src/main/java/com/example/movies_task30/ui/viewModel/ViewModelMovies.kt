@@ -1,22 +1,23 @@
 package com.example.movies_task30.ui.viewModel
 
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movies_task30.Repository.MovieRepo
 import com.example.movies_task30.data.model.ResponsePopular
 import com.example.movies_task30.data.model.movieGenre.GenreResponse
+import com.example.movies_task30.data.servies.ApiSeries
 import com.example.movies_task30.util.Constant
 import com.example.movies_task30.util.getError
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Inject
 import kotlin.properties.Delegates
-
-class ViewModelMovies : ViewModel() {
+@HiltViewModel
+class ViewModelMovies @Inject constructor(val repo:ApiSeries) : ViewModel() {
     private val _moviesLiveData = MutableLiveData<ResponsePopular>()
     val moviesLiveData: LiveData<ResponsePopular> = _moviesLiveData
 
@@ -28,6 +29,12 @@ class ViewModelMovies : ViewModel() {
 
     private val _genreErrorLiveData = MutableLiveData<String>()
     val genreErrorLiveData: LiveData<String> = _genreErrorLiveData
+
+    private val _similarLiveData = MutableLiveData<ResponsePopular>()
+    val similarLiveData: LiveData<ResponsePopular> = _similarLiveData
+
+    private val _similarErrorLiveData = MutableLiveData<String>()
+    val similarErrorLiveData: LiveData<String> = _similarErrorLiveData
 
     var generc by Delegates.notNull<Int>()
 
@@ -41,7 +48,7 @@ class ViewModelMovies : ViewModel() {
         viewModelScope.launch {
 
             try {
-                val res = MovieRepo().getMovies(Constant.API_KEY , with_genres)
+                val res = repo.getMovies(with_genres , api_key = Constant.API_KEY )
                 if (res.isSuccessful){
                     if (_moviesLiveData.value != res.body())
                         _moviesLiveData.postValue(res.body())
@@ -64,11 +71,33 @@ class ViewModelMovies : ViewModel() {
 
     private fun getGenre (){
         viewModelScope.launch {
-            val response = MovieRepo().getMovieGenre(Constant.API_KEY)
+            val response = repo.getMovieGenre(Constant.API_KEY)
             if (response.isSuccessful)
                 _genreMoviesLiveData.postValue(response.body())
             else
                 _genreErrorLiveData.postValue(response.errorBody()?.getError())
+        }
+    }
+
+     fun getSimilar (movie_id:Int){
+        viewModelScope.launch {
+            try {
+                val response = repo.getSimilar(movie_id = movie_id , api_key = Constant.API_KEY)
+                if (response.isSuccessful)
+                    _similarLiveData.postValue(response.body())
+                else
+                    _similarErrorLiveData.postValue(response.errorBody()?.getError())
+
+        }catch (e :IOException){
+             e.printStackTrace()
+                _similarErrorLiveData.postValue(e.message.toString())
+         } catch (e: HttpException) {
+             e.printStackTrace()
+                _similarErrorLiveData.postValue(e.response()?.errorBody()?.getError().toString())
+         } catch (e: Exception) {
+             e.printStackTrace()
+                _similarErrorLiveData.postValue(e.message.toString())
+         }
         }
     }
 

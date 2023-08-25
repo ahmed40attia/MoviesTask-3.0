@@ -2,5 +2,6 @@
     <string name="app_name">Movies - Task 3.0</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="similar">similar</string>
+    <string name="similar">Similar</string>
+    <string name="cast">Cast</string>
 </resources>

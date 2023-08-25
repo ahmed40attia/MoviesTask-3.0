@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="cast"
+            type="com.example.movies_task30.data.model.movieActors.Cast" />
+        <variable
+            name="name"
+            type="String" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        >
+
+        <View
+            android:id="@+id/headerView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_24sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/colorPrimary"
+            />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:elevation="12dp"
+            android:id="@+id/view2"
+            app:cardCornerRadius="40dp"
+            android:layout_centerHorizontal="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:innerRadius="0dp"
+            android:shape="ring"
+            android:thicknessRatio="1.9">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/container_image"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_70sdp"
+                android:scaleType="centerCrop"
+                imageURL="@{cast.profile_path}"
+                android:textSize="@dimen/_18ssp"
+                app:riv_corner_radius="@dimen/_4sdp"
+                android:background="@drawable/image_background" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/Name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="@{cast.name}"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="@id/view2"
+            app:layout_constraintTop_toBottomOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="@+id/view2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:fontFamily="@font/ubuntu_medium"
+            android:includeFontPadding="false"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/_12ssp"
+            android:layout_marginBottom="@dimen/_4sdp"
+             />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
