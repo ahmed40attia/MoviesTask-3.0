@@ -83,6 +83,7 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(R.layout.fragment_d
 
         viewModel.getImages(getMovieId())
         viewModel.moviesImagesLiveData.observe(viewLifecycleOwner){response ->
+
             val images = response.backdrops.map { index ->
                 index.file_path
             }
@@ -159,15 +160,9 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(R.layout.fragment_d
 
 
     private fun initialSlider(images: List<String>) {
-        val images_:List<String>
-
-        if (images.size > 7)
-             images_ = images.subList(0 ,8)
-        else
-            images_ = images
 
         binding.sliderPages.offscreenPageLimit = 1
-        binding.sliderPages.adapter = ImageSliderAdapter(images_)
+        binding.sliderPages.adapter = ImageSliderAdapter(images)
         binding.sliderPages.visibility = ViewPager.VISIBLE
         initialSliderIndicator(images.size)
         binding.sliderPages.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
